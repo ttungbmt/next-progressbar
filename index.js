@@ -1,32 +1,25 @@
-const WebpackBar = require('webpackbar')
+module.exports = ({enabled = true, ...webpackOptions} = {}) => (nextConfig = {}) => {
 
-const dev = process.env.NODE_ENV !== 'production'
-
-module.exports = (nextConfig = {}) => {
   return Object.assign({}, nextConfig, {
-    webpack(config, options) {
-      if (!options.defaultLoaders) {
-        throw new Error(
-          'This plugin is not compatible with Next.js versions below 5.0.0 https://err.sh/next-plugins/upgrade'
-        )
-      }
+      webpack(config, options) {
+          if (enabled) {
+              const WebpackBar = require('webpackbar')
+              const {isServer} = options
 
-      const { isServer } = options      
+              const defaultProgressBar = {
+                  name: isServer ? 'server' : 'client',
+                  color: isServer ? 'orange' : 'green'
+              }
 
-      const defaultProgressBar = {
-        name: isServer ? 'server' : 'client',
-        color: isServer ? 'orange' : 'green'
-      }
+              const webpackBar = Object.assign({}, defaultProgressBar, webpackOptions)
+              config.plugins.push(new WebpackBar(webpackBar))
+          }
 
-      const webpackBar = Object.assign({}, defaultProgressBar, nextConfig)
+          if (typeof nextConfig.webpack === 'function') {
+              return nextConfig.webpack(config, options)
+          }
 
-      config.plugins.push(new WebpackBar(webpackBar))
-
-      if (typeof nextConfig.webpack === 'function') {
-        return nextConfig.webpack(config, options)
-      }
-
-      return config
-    }
+          return config
+      },
   })
 }
