@@ -11,16 +11,14 @@ module.exports = (nextConfig = {}) => {
         )
       }
 
-      const { isServer } = options
-
-      const { progressBar = {} } = nextConfig
+      const { isServer } = options      
 
       const defaultProgressBar = {
         name: isServer ? 'server' : 'client',
         color: isServer ? 'orange' : 'green'
       }
 
-      const webpackBar = Object.assign({}, defaultProgressBar, progressBar)
+      const webpackBar = Object.assign({}, defaultProgressBar, nextConfig)
 
       config.plugins.push(new WebpackBar(webpackBar))
 

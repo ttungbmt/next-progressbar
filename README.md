@@ -50,10 +50,8 @@ For example, you can enable the profiler :
 // next.config.js
 const withProgressBar = require('next-progressbar')
 
-module.exports = withProgressBar({
-  progressBar: {
-    profile: true
-  }
+module.exports = withProgressBar({  
+  profile: true  
   // rest of your next config
 })
 ```
