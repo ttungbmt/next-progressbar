@@ -16,7 +16,7 @@
 ### Installation
 
 ```
-yarn add next-progressbar
+yarn add @ttungbmt/next-progressbar
 ```
 
 ### Usage
